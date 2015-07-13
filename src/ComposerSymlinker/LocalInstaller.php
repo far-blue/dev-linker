@@ -67,8 +67,8 @@ class LocalInstaller extends LibraryInstaller
             return parent::installCode($package);
         }
 
-        $this->io->write("  - Installing <info>" . $package->getName()
-            . "</info> (<comment>as a symbolic link of " . $localPath . "</comment>)");
+        $this->io->write("  - Symlinking <info>" . $package->getName() . "</info");
+        $this->debug("Symlinking to local path <comment>{$localPath}</comment>")
 
         $this->initializeVendorSubdir($package);
 
@@ -92,7 +92,7 @@ class LocalInstaller extends LibraryInstaller
             return parent::updateCode($initial, $target);
         }
 
-        $this->io->write("  - Replacing <info>" . $package->getName() . "</info>");
+        $this->io->write("  - Replacing <info>" . $initial->getName() . "</info>");
         $this->removeCode($initial);
         return $this->installCode($target);
     }
@@ -102,8 +102,10 @@ class LocalInstaller extends LibraryInstaller
      */
     protected function removeCode(PackageInterface $package)
     {
-        if ($this->isSymlink($package)) {
-            $this->filesystem->unlink($this->getInstallPath($package));
+        $path = $this->getInstallPath($package)
+        if ($this->isSymlink($path)) {
+            $this->debug("Unlinking <comment>{$path}</comment>...");
+            $this->filesystem->unlink($path);
             return true;
         }
         return parent::removeCode($package);
@@ -122,7 +124,7 @@ class LocalInstaller extends LibraryInstaller
         if (!is_link($path)) {
             return false;
         }
-        if (readlink($path === $path)) {
+        if (readlink($path) === $path) {
             return false;
         }
         return true;
@@ -184,6 +186,20 @@ class LocalInstaller extends LibraryInstaller
         $this->filesystem->ensureDirectoryExists(
             $this->vendorDir . DIRECTORY_SEPARATOR . $this->getPackageVendorName($package)
         );
+    }
+
+    /**
+     * Output verbose info.
+     *
+     * @param string $message The message.
+     *
+     * @return void
+     */
+    protected function debug($message)
+    {
+        if ($this->io->isVerbose()) {
+            $this->io->writeError("  <info>[symlinker]</info> {$message}");
+        }
     }
 
 }
