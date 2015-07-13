@@ -67,8 +67,8 @@ class LocalInstaller extends LibraryInstaller
             return parent::installCode($package);
         }
 
-        $this->io->write("  - Symlinking <info>" . $package->getName() . "</info");
-        $this->debug("Symlinking to local path <comment>{$localPath}</comment>")
+        $this->io->write("  - Symlinking <info>" . $package->getName() . "</info>");
+        $this->debug("Symlinking to local path <comment>{$localPath}</comment>");
 
         $this->initializeVendorSubdir($package);
 
@@ -102,7 +102,7 @@ class LocalInstaller extends LibraryInstaller
      */
     protected function removeCode(PackageInterface $package)
     {
-        $path = $this->getInstallPath($package)
+        $path = $this->getInstallPath($package);
         if ($this->isSymlink($path)) {
             $this->debug("Unlinking <comment>{$path}</comment>...");
             $this->filesystem->unlink($path);
