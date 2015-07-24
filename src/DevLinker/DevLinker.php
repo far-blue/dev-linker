@@ -57,7 +57,6 @@ class DevLinker extends LibraryInstaller
 
 		$this->initializeVendorSubdir($package);
 
-		$this->debug("Symlinking existing path {$localPath} to new location {$this->getInstallPath($package)}");
 		if (true !== @symlink($localPath, $this->getInstallPath($package))) {
 			throw new \Exception('Symlinking of "' . $localPath . '" failed');
 		}
@@ -158,7 +157,7 @@ class DevLinker extends LibraryInstaller
 	protected function initializeVendorSubdir(PackageInterface $package)
 	{
 		$this->initializeVendorDir();
-		$this->filesystem->ensureDirectoryExists($this->getPackageBasePath($package));
+//		$this->filesystem->ensureDirectoryExists($this->getPackageBasePath($package));
 	}
 
 	/**
