@@ -160,7 +160,6 @@ class DevLinker extends LibraryInstaller
 		$pathParts = explode(DIRECTORY_SEPARATOR, $this->getPackageBasePath($package));
 		array_pop($pathParts);
 		$packageNamespacePath=implode(DIRECTORY_SEPARATOR, $pathParts);
-$this->debug("Checking $packageNamespacePath exists");
 		$this->filesystem->ensureDirectoryExists($packageNamespacePath);
 	}
 
