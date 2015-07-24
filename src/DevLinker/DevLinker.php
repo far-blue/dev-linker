@@ -157,7 +157,11 @@ class DevLinker extends LibraryInstaller
 	protected function initializeVendorSubdir(PackageInterface $package)
 	{
 		$this->initializeVendorDir();
-//		$this->filesystem->ensureDirectoryExists($this->getPackageBasePath($package));
+		$pathParts = explode(DIRECTORY_SEPARATOR, $this->getPackageBasePath($package));
+		array_pop($pathParts);
+		$packageNamespacePath=implode(DIRECTORY_SEPARATOR, $pathParts);
+$this->debug("Checking $packageNamespacePath exists");
+		$this->filesystem->ensureDirectoryExists($packageNamespacePath);
 	}
 
 	/**
