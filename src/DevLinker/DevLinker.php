@@ -57,6 +57,7 @@ class DevLinker extends LibraryInstaller
 
 		$this->initializeVendorSubdir($package);
 
+		$this->debug("Symlinking <comment>{$this->getInstallPath($package)}</comment> to local path <comment>{$localPath}</comment>");
 		if (true !== @symlink($localPath, $this->getInstallPath($package))) {
 			throw new \Exception('Symlinking of "' . $localPath . '" failed');
 		}
