@@ -29,25 +29,16 @@ class DevLinker extends LibraryInstaller
 	 *
 	 * @var array
 	 */
-	protected $_localPackages = array();
+	protected $_localPackages = null;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null)
-	{
-		parent::__construct($io, $composer, $type, $filesystem);
-		$extra = $composer->getPackage()->getExtra();
-		if (isset($extra['dev-linker']['local-packages'])) {
-			foreach ($extra['dev-linker']['local-packages'] as $path) {
-				if (!$this->isValidLocalPackage($path)) {
-					throw new \InvalidArgumentException('Invalid local path: ' . $path);
-				}
-			}
-			$this->_localPackages = $extra['dev-linker']['local-packages'];
-		}
-	}
-
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	public function __construct(IOInterface $io, Composer $composer, $type = 'library', Filesystem $filesystem = null)
+//	{
+//		parent::__construct($io, $composer, $type, $filesystem);
+//		$this->_composer
+//	}
 
 	/**
 	 * {@inheritDoc}
@@ -140,7 +131,19 @@ class DevLinker extends LibraryInstaller
 	 */
 	protected function getLocalPathForPackage(PackageInterface $package)
 	{
-		if (isset($this->_localPackages[$package->getPrettyName()]) {
+		if ($this->_localPackages == null) {
+			$extra = $this->composer->getPackage()->getExtra();
+			if (isset($extra['dev-linker']['local-packages'])) {
+				foreach ($extra['dev-linker']['local-packages'] as $path) {
+					if (!$this->isValidLocalPackage($path)) {
+						throw new \InvalidArgumentException('Invalid local path: ' . $path);
+					}
+				}
+				$this->_localPackages = $extra['dev-linker']['local-packages'];
+			}
+		}
+
+		if (isset($this->_localPackages[$package->getPrettyName()])) {
 			return $this->_localPackages[$package->getPrettyName()];
 		}
 		return null;
