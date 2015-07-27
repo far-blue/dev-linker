@@ -2,7 +2,14 @@
 	"name": "far-blue/dev-linker",
 	"type": "composer-plugin",
 	"description": "A composer plugin to link local working copies of packages",
+	"authors": [
+		{
+			"name": "Robert Goldsmith",
+			"email": "r.s.goldsmith@far-blue.co.uk"
+		}
+	],
 	"require": {
+		"php": ">=5.3.2",
 		"composer-plugin-api": "1.*"
 	},
 	"require-dev": {
