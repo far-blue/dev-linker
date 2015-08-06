@@ -32,7 +32,8 @@ To use it, just add it as a dependency in your `composer.json`:
 		"local-packages": {
 			"vendor/package1": "/path/to/working/copy",
 			"vendor/package2": "/path/to/working/copy"
-    }
+		}
+	}
 }
 ```
 
